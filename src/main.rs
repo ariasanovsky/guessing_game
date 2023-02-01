@@ -21,42 +21,37 @@ fn main() {
 
     println!("The secret number is: {secret_number}");
     
-    println!("Please input your guess.");
+    loop{
+        println!("Please input your guess.");
 
-    // let : creates variable
-    // mut : makes it mutable (immut by default)
-    // =   : immediately binds to the the rvalue
-    let mut guess = String::new();
+        // let : creates variable
+        // mut : makes it mutable (immut by default)
+        // =   : immediately binds to the the rvalue
+        let mut guess = String::new();
 
-    // reads line and accounts for error message
-    io::stdin()                             // calls std library io function
-        .read_line(&mut guess)              // returns a Result   : an enum Ok or Err
-        .expect("Failed to read line");     // handles the Result : what to say for an Err
-                                            // compiler warning for unhandled Result, better practice
-    // references in rust can be mutable (default immutable)
+        // reads line and accounts for error message
+        io::stdin()                             // calls std library io function
+            .read_line(&mut guess)              // returns a Result   : an enum Ok or Err
+            .expect("Failed to read line");     // handles the Result : what to say for an Err
+                                                // compiler warning for unhandled Result, better practice
+        // references in rust can be mutable (default immutable)
 
-    // placeholders are neat
-    println!("You guessed: {guess}");
-    /*
-    compare to
-    let x = 5;
-    let y = 10;
-    println!("x = {x} and y + 2 = {}", y + 2);
-    */
-
-    // reuses variable name
-    let guess: u32 = guess.trim()
-        .parse()
-        .expect("Please type a number!");
-    // trim removes whitespace on the ends
-    // parse converts to the desired type (u32)
-    // also returns a Return (same as above, Ok or Err)
-    // expect says what to complain about in the Err case
+        // placeholders are neat
+        println!("You guessed: {guess}");
+        
+        // reuses variable name
+        let guess: u32 = guess.trim()           // returns str : whitespace trimmed on ends
+            .parse()                            // returns Result : parsed to the desired type (u32)?
+            .expect("Please type a number!");   // what to complain about in the Err case
     
-    // a match has arms (patterns to match)
-    match guess.cmp(&secret_number){
-        Ordering::Less      => println!("Too small!"), 
-        Ordering::Greater   => println!("Too large!"), 
-        Ordering::Equal     => println!("You win!"), 
+        // a match has arms (patterns to match)
+        match guess.cmp(&secret_number){
+            Ordering::Less      => println!("Too small!"), 
+            Ordering::Greater   => println!("Too large!"), 
+            Ordering::Equal     => {
+                println!("You win!");
+                break;
+            }
+        }
     }
 }
