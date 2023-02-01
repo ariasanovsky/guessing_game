@@ -1,11 +1,23 @@
 // using standard io library
 use std::io;
 
+// using the rand library
+use rand::Rng;
+
 // no ! : this is a function, not a macro
 fn main() {
 
     // ! : calling a macro, not a function
     println!("Guess the number!");
+
+    // first line in initializing the RNG
+    let secret_number = rand::thread_rng()
+        .gen_range(1..=100);
+    // second line is calling it with a range
+    // if I let oneHundred = 1..=100; then oneHundred is an int range
+    
+    println!("The secret number is: {secret_number}");
+    
     println!("Please input your guess.");
 
     // let : creates variable
