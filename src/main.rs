@@ -19,7 +19,7 @@ fn main() {
     // second line is calling it with a range
     // if I let oneHundred = 1..=100; then oneHundred is an int range
 
-    println!("The secret number is: {secret_number}");
+    // println!("The secret number is: {secret_number}");
     
     loop{
         println!("Please input your guess.");
@@ -36,13 +36,16 @@ fn main() {
                                                 // compiler warning for unhandled Result, better practice
         // references in rust can be mutable (default immutable)
 
-        // placeholders are neat
-        println!("You guessed: {guess}");
-        
         // reuses variable name
-        let guess: u32 = guess.trim()           // returns str : whitespace trimmed on ends
+        let guess: u32 = match guess.trim()     // returns str : whitespace trimmed on ends
             .parse()                            // returns Result : parsed to the desired type (u32)?
-            .expect("Please type a number!");   // what to complain about in the Err case
+            {
+                Ok(num) => num,                 // on successful match, captures as num and returns num
+                Err(_)  => {                    // else, continues the loop (I added a print)
+                    println!("invalid guess!");
+                    continue;
+                }
+            };
     
         // a match has arms (patterns to match)
         match guess.cmp(&secret_number){
